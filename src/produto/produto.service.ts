@@ -2,6 +2,7 @@ import { BadRequestException, Injectable} from '@nestjs/common';
 import { Prisma, Produto } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
 import { ProdutoDto } from 'src/dto/produto.dto';
+import { ProdutoExistenteErro, ProdutoInexistenteErro } from 'src/err/erros';
 import { EstoqueService } from 'src/estoque/estoque.service';
 import { IRepositoryProduto } from './Interface/IRepositoryProduto';
 
@@ -17,7 +18,7 @@ export class ProdutoService implements IRepositoryProduto{
     })
     
     if(ProdutoExist){
-       throw new BadRequestException('Produto existente, por favor apenas atualize as informações.')
+       throw new ProdutoExistenteErro('Produto existente, por favor apenas atualize as informações.')
     }
 
     return await this.prisma.produto.create({data: createProdutoDto})
@@ -47,7 +48,7 @@ export class ProdutoService implements IRepositoryProduto{
     });
 
     if(!produtoExist){
-      throw new Error('Estoque does not exists!')
+      throw new ProdutoInexistenteErro('Estoque does not exists!')
     }
 
     return await this.prisma.produto.update({
@@ -66,7 +67,7 @@ export class ProdutoService implements IRepositoryProduto{
     })
 
     if(!ProdutoExist){
-       throw new BadRequestException('Produto inexistente')
+       throw new ProdutoInexistenteErro('Produto inexistente')
     }
 
     return await this.prisma.produto.delete({

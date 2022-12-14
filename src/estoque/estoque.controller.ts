@@ -21,14 +21,9 @@ export class EstoqueController implements iRepositoryEstoque{
     return this.estoqueService.findAll();
   }
 
-  // @Get(':id')
-  // async findOne(@Param('id') id: number) {
-  //   return this.estoqueService.findOne(+id)
-  // }
-
   @Get(':id')
-  async findOne(@Param('id') id: number){
-    return this.estoqueService.findByEstoque(+id)
+  async findInEstoque(@Param('id') id: number){
+    return this.estoqueService.findInEstoque(+id)
   }
 
   @Put(':id')

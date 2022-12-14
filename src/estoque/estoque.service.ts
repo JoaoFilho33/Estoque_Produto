@@ -2,6 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { Estoque, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
 import { EstoqueDto } from 'src/dto/estoque.dto';
+import { EstoqueExistenteErro, EstoqueInexistenteErro } from 'src/err/erros';
 import { iRepositoryEstoque } from './Interface/iRepositoryEstoque';
 
 @Injectable()
@@ -16,7 +17,7 @@ export class EstoqueService implements iRepositoryEstoque{
     })
 
     if(estoqueExist){
-      throw new BadRequestException('Estoque já existe')
+      throw new EstoqueExistenteErro('Estoque já existe')
     }
 
     return await this.prisma.estoque.create({ data: createEstoqueDto })
@@ -26,16 +27,10 @@ export class EstoqueService implements iRepositoryEstoque{
     return this.prisma.estoque.findMany();
   }
 
-  async findOne(id: number) {
-    return this.prisma.estoque.findMany({
-      select: {id: true}
-    });
-  }
-
-
-  async findByEstoque(id: number){
+  async findInEstoque(id: number){
     return this.prisma.produto.findMany({
       select:{
+        id: true,
         nome: true,
         marca: true,
         valor: true,
@@ -56,7 +51,7 @@ export class EstoqueService implements iRepositoryEstoque{
       });
 
       if(!estoqueExist){
-          throw new Error('Estoque does not exists!')
+          throw new EstoqueInexistenteErro('Estoque does not exists!')
       }
 
       return await this.prisma.estoque.update({
@@ -75,7 +70,7 @@ export class EstoqueService implements iRepositoryEstoque{
     });
 
     if(!estoqueExist){
-      throw new Error('Estoque does not exists!')
+      throw new EstoqueInexistenteErro('Estoque does not exists!')
     }
 
     return await this.prisma.estoque.delete({

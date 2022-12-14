@@ -6,7 +6,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder().setTitle('Estoque Application')
-    .setDescription("Demo API Application")
+    .setDescription("Api para fazer  cadastro de estoques e produtos")
     .setVersion('v1')
     .addTag('estoque')
     .addTag('produto')

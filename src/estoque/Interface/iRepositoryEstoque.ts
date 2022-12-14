@@ -5,6 +5,6 @@ export interface iRepositoryEstoque{
     create(produto: EstoqueDto);
     update(id: number, data: Prisma.EstoqueUpdateInput)
     findAll()
-    findOne(id: number);
+    findInEstoque(id: number);
     delete(id: number);
 }
