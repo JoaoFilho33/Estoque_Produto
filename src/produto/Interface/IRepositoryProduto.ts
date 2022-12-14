@@ -1,4 +1,5 @@
 import { Prisma } from "@prisma/client";
+import { ProdutoDto } from "src/dto/produto.dto";
 
 export interface IRepositoryProduto{
     create(produto: Prisma.ProdutoCreateManyInput);

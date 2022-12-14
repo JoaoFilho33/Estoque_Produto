@@ -5,7 +5,5 @@ export class EstoqueDto{
     @ApiProperty()
     id: number;
     @ApiProperty()
-    capacidade: number;
-    @ApiProperty()
     produto: ProdutoDto[]
 }

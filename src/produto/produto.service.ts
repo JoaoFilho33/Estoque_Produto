@@ -1,7 +1,8 @@
-import { BadRequestException, Injectable, Param } from '@nestjs/common';
+import { BadRequestException, Injectable} from '@nestjs/common';
 import { Prisma, Produto } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
-import { ProdutoDto } from '../dto/produto.dto';
+import { ProdutoDto } from 'src/dto/produto.dto';
+import { EstoqueService } from 'src/estoque/estoque.service';
 import { IRepositoryProduto } from './Interface/IRepositoryProduto';
 
 @Injectable()
@@ -14,11 +15,12 @@ export class ProdutoService implements IRepositoryProduto{
         id: createProdutoDto.id
       }
     })
+    
     if(ProdutoExist){
        throw new BadRequestException('Produto existente, por favor apenas atualize as informações.')
     }
 
-    return this.prisma.produto.create({data: createProdutoDto})
+    return await this.prisma.produto.create({data: createProdutoDto})
   }
 
   async findAll() {
@@ -29,14 +31,22 @@ export class ProdutoService implements IRepositoryProduto{
     return this.prisma.produto.findUnique({ where:{id} })
   }
 
+  // async findByEstoque(id: number){
+  //   return this.prisma.produto.findMany({
+  //     where:{
+  //       armazemid: id
+  //     }
+  //   })
+  // }
+
   async update(id: number, data: Prisma.ProdutoUpdateInput){
-    const estoqueExist = await this.prisma.estoque.findUnique({
+    const produtoExist = await this.prisma.estoque.findUnique({
       where: {
           id,
       },
     });
 
-    if(!estoqueExist){
+    if(!produtoExist){
       throw new Error('Estoque does not exists!')
     }
 

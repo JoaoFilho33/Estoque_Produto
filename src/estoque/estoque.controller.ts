@@ -8,6 +8,7 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('estoque')
 @Controller('estoque')
 export class EstoqueController implements iRepositoryEstoque{
+  produtoService: any;
   constructor(private readonly estoqueService: EstoqueService) {}
 
   @Post()
@@ -20,9 +21,14 @@ export class EstoqueController implements iRepositoryEstoque{
     return this.estoqueService.findAll();
   }
 
+  // @Get(':id')
+  // async findOne(@Param('id') id: number) {
+  //   return this.estoqueService.findOne(+id)
+  // }
+
   @Get(':id')
-  async findOne(@Param('id') id: number) {
-    return this.estoqueService.findOne(+id)
+  async findOne(@Param('id') id: number){
+    return this.estoqueService.findByEstoque(+id)
   }
 
   @Put(':id')

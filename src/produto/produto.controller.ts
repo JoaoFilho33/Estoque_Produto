@@ -15,22 +15,22 @@ export class ProdutoController implements IRepositoryProduto{
     return this.produtoService.create(createProdutoDto);
   }
 
-  @Get('produto')
+  @Get()
   async findAll() {
     return this.produtoService.findAll();
   }
 
-  @Get('produto/:id')
+  @Get(':id')
   async findOne(@Param('id') id: number) {
     return this.produtoService.findOne(+id);
   }
 
-  @Put('produto/:id')
-  async update(@Param('id') id: number, @Body('data') data: Prisma.ProdutoUpdateInput) {
+  @Put(':id')
+  async update(@Param('id') id: number, @Body() data: ProdutoDto) {
     return this.produtoService.update(+id, data)
   }
 
-  @Delete('produto/:id')
+  @Delete(':id')
   async delete(@Param('id') id: number) {
     return this.produtoService.delete(+id);
   }

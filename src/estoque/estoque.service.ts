@@ -1,12 +1,11 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { Estoque, Prisma } from '@prisma/client';
 import { PrismaService } from 'src/database/prisma.service';
-import { EstoqueDto } from '../dto/estoque.dto';
+import { EstoqueDto } from 'src/dto/estoque.dto';
 import { iRepositoryEstoque } from './Interface/iRepositoryEstoque';
 
 @Injectable()
 export class EstoqueService implements iRepositoryEstoque{
-
   constructor(private prisma : PrismaService){}
 
   async create(createEstoqueDto: Prisma.EstoqueCreateManyInput): Promise<Estoque>{
@@ -31,6 +30,22 @@ export class EstoqueService implements iRepositoryEstoque{
     return this.prisma.estoque.findMany({
       select: {id: true}
     });
+  }
+
+
+  async findByEstoque(id: number){
+    return this.prisma.produto.findMany({
+      select:{
+        nome: true,
+        marca: true,
+        valor: true,
+        dataValidade: true,
+        quantidade: true,
+        perecivel: true
+      }, where:{
+        armazemid: id
+      }
+    })
   }
 
   async update(id: number, data: Prisma.EstoqueUpdateInput){

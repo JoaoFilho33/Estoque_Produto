@@ -23,20 +23,14 @@ export class ProdutoDto {
     })
     valor: number
 
-    @ApiProperty()
-    codidoBarra: string
-
     @ApiProperty({
         example: '2024-05-31',
         description: 'Representa a data de validade do produto, no modelo yyyy-mm-dd'
     })
-    dataValidade: Date
+    dataValidade: string
 
     @ApiProperty()
-    produto: EstoqueDto
-
-    @ApiProperty()
-    produtoId: number
+    armazemid: number
 
     @ApiProperty()
     perecivel: boolean

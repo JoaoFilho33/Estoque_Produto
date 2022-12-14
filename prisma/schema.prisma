@@ -13,7 +13,6 @@ generator erd {
 
 model Estoque {
   id  Int  @id @default(autoincrement())
-  capacidade  Int
   produto Produto[]
 }
 
@@ -23,8 +22,8 @@ model Produto {
   marca String
   valor Float
   quantidade  Int
-  dataValidade  DateTime
-  produto Estoque @relation(fields: [id], references: [id])
-  produtoId Int
+  dataValidade  String
+  armazem Estoque @relation(fields: [armazemid], references: [id])
+  armazemid Int
   perecivel Boolean 
 }
